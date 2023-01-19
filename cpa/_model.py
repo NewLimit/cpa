@@ -322,7 +322,7 @@ class CPA(BaseModelClass):
             use_gpu=use_gpu,
             early_stopping_monitor="cpa_metric",
             early_stopping_mode='max',
-            checkpoint_callback=True,
+            #checkpoint_callback=True,
             **trainer_kwargs,
         )
         runner()
