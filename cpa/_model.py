@@ -293,7 +293,7 @@ class CPA(BaseModelClass):
 
         self.training_plan = CPATrainingPlan(self.module, self.cat_covars_encoders, **plan_kwargs)
         trainer_kwargs["early_stopping"] = False
-        trainer_kwargs.update({'weights_summary': 'top'})
+        #trainer_kwargs.update({'weights_summary': 'top'})
         trainer_kwargs['check_val_every_n_epoch'] = trainer_kwargs.get('check_val_every_n_epoch', 20)
 
         es_callback = EarlyStopping(monitor='cpa_metric',
@@ -322,7 +322,7 @@ class CPA(BaseModelClass):
             use_gpu=use_gpu,
             early_stopping_monitor="cpa_metric",
             early_stopping_mode='max',
-            checkpoint_callback=True,
+            #checkpoint_callback=True,
             **trainer_kwargs,
         )
         runner()
