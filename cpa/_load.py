@@ -30,5 +30,7 @@ def load_split(train_path: str,
     assert _validate_cols(adata), "Required columns not found in adata.obs"
     if 'control' not in adata.obs.columns:
         adata.obs['control'] = (adata.obs['condition'].values == control_condition).astype(int)
+    else:
+        logger.info('control column already present in adata.obs')
     return adata
     
