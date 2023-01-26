@@ -6,6 +6,7 @@ from ._model import CPA
 from ._module import CPAModule
 from . import _plotting as pl
 from ._api import ComPertAPI
+from ._load import load_split
 
 try:
     import importlib.metadata as importlib_metadata
