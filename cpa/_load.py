@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def _validate_cols(adata: sc.AnnData) -> bool:
     """Validate that CPA-required columns are present."""
-    required_cols = ['split', 'condition', 'dose_val']
+    required_cols = ['condition', 'dose_val']
     for col in required_cols:
         if col not in adata.obs.columns:
             logging.error(f'Column {col} not found in adata.obs')
@@ -22,12 +22,14 @@ def load_split(train_path: str,
                control_condition: str = 'GFP') -> sc.AnnData:
     """Load a train/valid/test split and format for CPA."""
     adata_train = sc.read_h5ad(train_path)
+    assert _validate_cols(adata_train), "Required columns not found in adata.obs"
     adata_valid = sc.read_h5ad(valid_path)
+    assert _validate_cols(adata_valid), "Required columns not found in adata.obs"
     adata_test = sc.read_h5ad(test_path)
+    assert _validate_cols(adata_test), "Required columns not found in adata.obs"
     adata = adata_train.concatenate([adata_valid, adata_test],
-                                      batch_key='split',
-                                        batch_categories=['train', 'test', 'ood'])
-    assert _validate_cols(adata), "Required columns not found in adata.obs"
+                                    batch_key='split',
+                                    batch_categories=['train', 'test', 'ood'])
     if 'control' not in adata.obs.columns:
         adata.obs['control'] = (adata.obs['condition'].values == control_condition).astype(int)
     else:
